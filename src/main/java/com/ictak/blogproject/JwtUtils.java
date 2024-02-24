@@ -1,7 +1,5 @@
 package com.ictak.blogproject;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
@@ -16,10 +14,5 @@ public class JwtUtils {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
     }
 
-    public static String generateToken(String subject) {
-        return Jwts.builder()
-                .setSubject(subject)
-                .signWith(getHs512SecretKey(), SignatureAlgorithm.HS512)
-                .compact();
-    }
+
 }

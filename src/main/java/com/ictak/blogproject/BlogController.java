@@ -33,14 +33,7 @@ public class BlogController {
         // Check if the user is authenticated
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication.isAuthenticated()) {
-            // Access user information
-       //     String username = authentication.getName();
-          //  List<GrantedAuthority> authorities = (List<GrantedAuthority>) authentication.getAuthorities();
 
-            // Perform token-specific operations if needed
-            // ...
-
-            // Proceed with creating the post
             postRepository.save(blogPosts);
 
             Map<String, String> response = new HashMap<>();
@@ -55,54 +48,6 @@ public class BlogController {
         }
     }
 
-
-//    @CrossOrigin(origins = "http://localhost:3000" )
-//    @PostMapping("/createPost")
-//    @PreAuthorize("isAuthenticated()")
-//    public ResponseEntity<Map<String, String>> createPosts(
-//            @RequestHeader(name = "Authorization") String token,
-//            @RequestBody BlogPosts blogPosts) {
-//
-//        // Check if the user is authenticated
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        if (authentication.isAuthenticated()) {
-//            // Access user information
-//            String username = authentication.getName();
-//            List<GrantedAuthority> authorities = (List<GrantedAuthority>) authentication.getAuthorities();
-//
-//            // Perform token-specific operations if needed
-//            // ...
-//
-//            // Proceed with creating the post
-//            postRepository.save(blogPosts);
-//
-//            Map<String, String> response = new HashMap<>();
-//            response.put("status", "success");
-//            return ResponseEntity.status(HttpStatus.CREATED).body(response);
-//        } else {
-//            // User is not authenticated (token validation failed)
-//            Map<String, String> response = new HashMap<>();
-//            response.put("status", "error");
-//            response.put("message", "Token validation failed");
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
-//        }
-//    }
-
-//    @CrossOrigin(origins = "http://localhost:3000" )
-//    @PostMapping("/createPost")
-//    public ResponseEntity<Map<String,String>> createPosts(@RequestHeader(name = "Authorization") String token, @RequestBody BlogPosts blogPosts){
-//
-//
-//
-//        postRepository.save(blogPosts);  // Insert
-//
-//        Map<String,String> response=new HashMap<>();
-//        response.put("status","success");
-//
-//        return ResponseEntity.status(HttpStatus.CREATED).body(response);
-//
-//
-//    }
 
 
     @CrossOrigin(origins = "http://localhost:3000" )

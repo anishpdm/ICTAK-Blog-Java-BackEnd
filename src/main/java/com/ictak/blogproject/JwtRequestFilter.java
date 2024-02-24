@@ -22,7 +22,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
 
-// Import statements...
 
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
@@ -68,18 +67,12 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             FilterChain chain) throws ServletException, IOException {
 
         String jwt = resolveToken(request);
-//        logger.debug("JWT Token: {}", jwt.());
 
         if (StringUtils.hasText(jwt) && validateToken(jwt)) {
             Claims claims = extractClaims(jwt);
 
             String username = claims.getSubject();
-         //   String authorities = claims.get("authorities", String.class);
 
-          //  UserDetails userDetails = new User(username, "", Collections.singletonList(new SimpleGrantedAuthority(authorities)));
-
-
-         //   String authorities = claims.get("authorities", String.class);
             String formattedAuthority = "ROLE_ADMIN" ; // Add "ROLE_" prefix
             UserDetails userDetails = new User(username, "", Collections.singletonList(new SimpleGrantedAuthority(formattedAuthority)));
 
