@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,22 +59,72 @@ public class BlogController {
 
     @CrossOrigin(origins = "http://localhost:3000" )
     @PostMapping("/viewAllPosts")
-    public ResponseEntity<List<Map<String,String>>> viewPosts() {
+    public ResponseEntity<List<Map<String,String>>> viewPosts(
+            @RequestHeader(name = "Authorization") String token
 
-       List<Map<String,String>> data= postRepository.viewAllPosts();
+            ) {
 
-       return ResponseEntity.ok(data);
+        System.out.println(token);
+
+        // Check if the user is authenticated
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication.isAuthenticated())
+        {
+            // User is authenticated
+            List<Map<String,String>> data= postRepository.viewAllPosts();
+
+            return ResponseEntity.ok(data);
+        }
+        else {
+            // User is not authenticated (token validation failed)
+            System.out.println("User is not authenticated ");
+            Map<String, String> response = new HashMap<>();
+            response.put("status", "error");
+            response.put("message", "Token validation failed");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Collections.singletonList(response));
+
+        }
+
+
+
+
 
     }
 
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/viewMyPost")
-    public ResponseEntity<List<Map<String,String>>> viewMyPosts(@RequestBody Users user){
+    public ResponseEntity<List<Map<String,String>>> viewMyPosts(
+            @RequestHeader(name = "Authorization") String token,
 
-        System.out.println(user.getId().toString());
-        List<Map<String,String>> data=postRepository.viewMyPosts(user.getId().toString());
-        return ResponseEntity.ok(data);
+
+            @RequestBody Users user){
+
+
+        System.out.println(token);
+
+        // Check if the user is authenticated
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication.isAuthenticated())
+        {
+            // User is authenticated
+            System.out.println(user.getId().toString());
+            List<Map<String,String>> data=postRepository.viewMyPosts(user.getId().toString());
+            return ResponseEntity.ok(data);
+        }
+
+        else {
+            // User is not authenticated (token validation failed)
+            System.out.println("User is not authenticated ");
+            Map<String, String> response = new HashMap<>();
+            response.put("status", "error");
+            response.put("message", "Token validation failed");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Collections.singletonList(response));
+        }
+
+
     }
 
 

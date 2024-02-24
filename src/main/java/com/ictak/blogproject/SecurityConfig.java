@@ -18,6 +18,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/createPost").authenticated()
+                .antMatchers("/viewAllPosts").authenticated()
                 .antMatchers("/signup", "/login").permitAll()  // Allow sign-up and login without authentication
                 .anyRequest().authenticated()
                 .and()
