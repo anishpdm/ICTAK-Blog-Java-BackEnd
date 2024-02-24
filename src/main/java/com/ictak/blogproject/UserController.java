@@ -2,12 +2,15 @@ package com.ictak.blogproject;
 
 import com.ictak.blogproject.models.Users;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
+import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,8 +21,8 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-
-    private final String secretKey = "ictacademy"; // Replace with a secure secret key
+   // private final String secretKey = "ictak1234567890ictakacademyqshvasjkgkjagaskjgaskjkjkjkjgkjagakjs"; // Replace with a secure secret key
+    private final SecretKey secretKey = JwtUtils.getHs512SecretKey();
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/signup")
@@ -37,12 +40,20 @@ public class UserController {
         Map<String, String> response = new HashMap<>();
 
         if (userData != null) {
+
+
+
+
             String token = Jwts.builder()
                     .setSubject(userData.getId().toString())
                     .setIssuedAt(new Date())
-                    .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 1 )) // 1 hours
-                    .signWith(SignatureAlgorithm.HS256, secretKey)
+                    .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 1)) // 1 hour
+                    .signWith(secretKey) // Generate a secure key
                     .compact();
+
+
+            System.out.println("Generated Token: " + token);
+
 
             response.put("status", "success");
             response.put("userId", userData.getId().toString());
