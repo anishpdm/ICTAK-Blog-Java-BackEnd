@@ -32,20 +32,26 @@ public class BlogController {
 
         // Check if the user is authenticated
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication.isAuthenticated()) {
 
+        if (authentication.isAuthenticated())
+        {
+            // User is authenticated
             postRepository.save(blogPosts);
 
             Map<String, String> response = new HashMap<>();
             response.put("status", "success");
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
-        } else {
+        }
+
+        else {
             // User is not authenticated (token validation failed)
+            System.out.println("User is not authenticated ");
             Map<String, String> response = new HashMap<>();
             response.put("status", "error");
             response.put("message", "Token validation failed");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
+
     }
 
 
