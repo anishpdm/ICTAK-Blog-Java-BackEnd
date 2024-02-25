@@ -41,13 +41,12 @@ public class UserController {
 
         if (userData != null) {
 
-
-
+// Token Generated
 
             String token = Jwts.builder()
                     .setSubject(userData.getId().toString())
                     .setIssuedAt(new Date())
-                    .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 1)) // 1 hour
+                    .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 1 hour
                     .signWith(secretKey) // Generate a secure key
                     .compact();
 

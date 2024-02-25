@@ -23,13 +23,13 @@ public class BlogController {
     @Autowired
     private PostRepository postRepository;
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "http://localhost:3000" , allowedHeaders = "*")
     @PostMapping("/createPost")
     public ResponseEntity<Map<String, String>> createPosts(
             @RequestHeader(name = "Authorization") String token,
             @RequestBody BlogPosts blogPosts) {
 
-        System.out.println(token);
+        System.out.println("Recieved"+ token);
 
         // Check if the user is authenticated
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -57,12 +57,14 @@ public class BlogController {
 
 
 
-    @CrossOrigin(origins = "http://localhost:3000" )
+    @CrossOrigin(origins = "http://localhost:3000" , allowedHeaders = "*")
     @PostMapping("/viewAllPosts")
     public ResponseEntity<List<Map<String,String>>> viewPosts(
             @RequestHeader(name = "Authorization") String token
 
             ) {
+        System.out.println("Test");
+
 
         System.out.println(token);
 
